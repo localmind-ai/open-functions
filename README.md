@@ -18,6 +18,8 @@ It's 23.4 C Degrees in Innsbruck.
 ```
 ### Input
 Create a Python script that shows the current time.
+### Output
+*run_python()*
 ```
 {
   "python_code": "import time\n print(time)",
@@ -25,4 +27,3 @@ Create a Python script that shows the current time.
   "python_output": "json", "text"
 }
 ```
-### Output
