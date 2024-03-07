@@ -7,7 +7,7 @@ You can define any function structure. OpenFunctions will follow it and make sur
 ### Input
 It's 23.4 C Degrees in Innsbruck.
 ### Output
-*get_weather()*
+Function: *get_weather()*
 ```
 {
   "city": "Innsbruck",
@@ -19,11 +19,21 @@ It's 23.4 C Degrees in Innsbruck.
 ### Input
 Create a Python script that shows the current time.
 ### Output
-*run_python()*
+Function: *run_python()*
 ```
 {
   "python_code": "import time\n print(time)",
   "python_executor": "python3.10",
   "python_output": "json", "text"
+}
+```
+### Input
+How are you?
+### Output
+No Function provided, regular LLM response will be outputted.
+```
+{
+  "response": "I'm doing great, how are you?",
+  "function_call": "none",
 }
 ```
