@@ -1,6 +1,8 @@
-# OpenFunctions
-OpenFunctions gives open LLMs like Mistral & Llama advanced function calling capabilities.
-Use LLMs as interactive tools that do tasks for you. Whether you're looking to streamline complex data analysis, automate content generation, or develop innovative AI-driven solutions, OpenFunctions provides the key to unlocking new levels of AI agent performance and productivity.
+# Open Functions
+**Extend LLMs like Mistral and Llama with advanced function calling capabilities.**
+
+Open Functions transforms a regular LLM that was not pre-trained for function calling and extends it with function calling capabilities. these models to call and execute functions, Open Functions transforms LLMs into powerful, interactive tools capable of completing complex tasks and generating structured outputs. Whether you're aiming to streamline data analysis, automate content creation, or develop innovative AI-driven solutions, Open Functions provide the key to unlocking the full potential of open-source LLMs, ensuring reliable performance.
+
 ## How it works
 You can define any function structure. OpenFunctions will follow it and make sure the LLM always outputs the correct output and structure. 
 ## Examples
