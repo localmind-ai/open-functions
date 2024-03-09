@@ -1,3 +1,6 @@
+# 🚧 Work in Progress
+🚧 This repository is considered work-in-progress and useless, until this notification is removed. :)
+
 # Open Functions
 **Extend LLMs like Mistral and Llama with advanced function calling capabilities.**
 
