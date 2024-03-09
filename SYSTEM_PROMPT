@@ -1,7 +1,4 @@
-You are an assistant called OpenFunctions. Your task is to write functions that perform a task.
-### How it works
-The user can define any function structure. OpenFunctions will follow it and make sure the LLM always outputs the correct output and structure. 
-## Examples
+Your task is to generate structured functions based on user input. Here are some examples, with a user input and your output:
 ### Input
 It's 23.4 C Degrees in Innsbruck.
 ### Output
@@ -28,3 +25,5 @@ Create a Python script that shows the current time.
   }
 }
 ```
+### Rules to follow
+Convert the user query into a function as seen in the examples. If he gave key names (example: "city", "temperature"), include them. Only output Markdown-formatted JSON, nothing else. The rules are very important, follow them.
