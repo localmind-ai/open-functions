@@ -65,7 +65,7 @@ def call_llm_api(user_input):
 def extract_and_validate_json(text):
     logging.debug("Extracting and validating JSON from text")
     # Regex to find markdown code blocks
-    matches = re.findall(r"```(.*?)```", text, re.DOTALL)
+    matches = re.findall(r"```json(.*?)```", text, re.DOTALL)
     for match in matches:
         try:
             # Attempt to parse the code block as JSON
