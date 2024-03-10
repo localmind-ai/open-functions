@@ -11,7 +11,15 @@
 ## Install
 1. Clone this repository: `git clone https://github.com/localmind-ai/open-functions`
 2. Install Dependencies: `pip install -r requirements.txt`
-1. Run the app: `python3 open-functions.py`
+3. Run the API: `uvicorn open-functions:app --reload`
+4. Call it over cURL or somehow else:
+```
+curl -X POST http://127.0.0.1:8000/function_call \
+-H "Content-Type: application/json" \
+-d '{
+    "text": "The weather in innsbruck is beatuiful, 20°C and sunny."
+}'
+```
 
 ## How it works
 You define the structure of your function in an instruction prompt. Open Functions will try to follow your instructions and make sure that the output is always valid and well-structured JSON. 
