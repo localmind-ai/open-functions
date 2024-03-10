@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from datetime import datetime
 import requests
@@ -6,7 +7,7 @@ import json
 import re
 import os
 import logging
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 load_dotenv()
 # Configure logging
@@ -21,6 +22,12 @@ app = FastAPI(
 # Request and Response models
 class FunctionCallRequest(BaseModel):
     text: str
+
+class RawFunctionCallRequest(BaseModel):
+    raw_data: str = Field(..., description="Raw data to be processed directly by the function")
+
+class JsonFunctionCallRequest(BaseModel):
+    json_data: dict = Field(..., description="Structured JSON data for function processing")
 
 class FunctionCallResponse(BaseModel):
     response: str
@@ -79,29 +86,25 @@ def extract_and_validate_json(text):
             continue
     return False, None
 
-@app.post('/function_call', summary="Call LLM Function", response_model=FunctionCallResponse)
-async def function_call(request: Request):
+@app.post('/raw_function_call', summary="Direct Raw Function Call", response_model=FunctionCallResponse)
+async def raw_function_call(request: RawFunctionCallRequest):
     """
-    Calls the LLM API with the user input and returns the response.
-
-    - **text**: User input text to process
+    Directly calls the LLM API with the raw data provided by the user.
     """
-    request_data = await request.json()
-    user_input = request_data.get('text')
-    logging.info(f"Received user input: {user_input}")
+    user_input = request.raw_data
+    logging.info(f"Received raw user input: {user_input}")
 
     if not user_input:
-        logging.error("No text provided in request")
-        raise HTTPException(status_code=400, detail="No text provided")
+        logging.error("No raw data provided in request")
+        raise HTTPException(status_code=400, detail="No raw data provided")
 
-    # Call the LLM API
+    # Process like a normal function call
     llm_response = call_llm_api(user_input)
 
     if llm_response is None:
         logging.error("LLM response is None")
         raise HTTPException(status_code=500, detail="LLM service unavailable")
 
-    # Attempt to extract the message from the LLM response
     try:
         llm_message = llm_response['choices'][0]['message']['content']
         logging.info(f"LLM message extracted: {llm_message}")
@@ -109,7 +112,6 @@ async def function_call(request: Request):
         logging.error(f"Invalid response structure from LLM: {e}")
         raise HTTPException(status_code=500, detail="Invalid response structure from LLM")
 
-    # Check if the LLM message contains a valid JSON in a markdown code block
     json_found, json_data = extract_and_validate_json(llm_message)
 
     response_data = {
@@ -118,6 +120,44 @@ async def function_call(request: Request):
         "json_data": json_data,
         "timestamp": datetime.now().isoformat()
     }
+
+    logging.debug(f"Raw function call response data: {response_data}")
+    return response_data
+
+@app.post('/json_function_call', summary="JSON Data Function Call", response_model=FunctionCallResponse)
+async def json_function_call(request: JsonFunctionCallRequest):
+    """
+    Processes the structured JSON data provided by the user and returns a structured response.
+    """
+    json_data = request.json_data
+    logging.info(f"Received JSON data: {json_data}")
+
+    # Convert JSON data to string for LLM processing
+    user_input = json.dumps(json_data)
+    llm_response = call_llm_api(user_input)
+
+    if llm_response is None:
+        logging.error("LLM response is None")
+        raise HTTPException(status_code=500, detail="LLM service unavailable")
+
+    try:
+        llm_message = llm_response['choices'][0]['message']['content']
+        logging.info(f"LLM message extracted: {llm_message}")
+    except (KeyError, IndexError, TypeError) as e:
+        logging.error(f"Invalid response structure from LLM: {e}")
+        raise HTTPException(status_code=500, detail="Invalid response structure from LLM")
+
+    json_found, json_data = extract_and_validate_json(llm_message)
+
+    response_data = {
+        "response": llm_message,
+        "valid_json_found": json_found,
+        "json_data": json_data,
+        "timestamp": datetime.now().isoformat()
+    }
+
+    logging.debug(f"JSON function call response data: {response_data}")
+    return response_data
 
     logging.debug(f"Function call response data: {response_data}")
     return response_data
