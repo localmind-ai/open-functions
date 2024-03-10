@@ -20,7 +20,25 @@ curl -X POST http://127.0.0.1:8000/function_call \
     "text": "The weather in innsbruck is beatuiful, 20°C and sunny."
 }'
 ```
-
+### Response
+```
+{
+    "response": "```json\n{\n  \"type\": \"function\",\n  \"name\": \"get_weather\",\n  \"parameters\": {\n    \"city\": \"Innsbruck\",\n    \"temperature\": \"20\",\n    \"condition\": \"sunny\",\n    \"description\": \"beautiful\"\n  },\n  \"status\": \"success\"\n}\n```",
+    "valid_json_found": true,
+    "json_data": {
+        "type": "function",
+        "name": "get_weather",
+        "parameters": {
+            "city": "Innsbruck",
+            "temperature": "20",
+            "condition": "sunny",
+            "description": "beautiful"
+        },
+        "status": "success"
+    },
+    "timestamp": "2024-03-10T02:32:00.804711"
+}
+```
 ## How it works
 You define the structure of your function in an instruction prompt. Open Functions will try to follow your instructions and make sure that the output is always valid and well-structured JSON. 
 ## Examples
