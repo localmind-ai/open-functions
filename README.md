@@ -35,7 +35,7 @@ curl -X POST http://127.0.0.1:8000/function_call \
 }
 ```
 ## How it works
-You define the structure of your function in an instruction prompt. Open Functions will try to follow your instructions and make sure that the output is always valid and well-structured JSON. 
+You define the structure of your function in an instruction prompt. Open Functions will try to follow your instructions and make sure that the output is always valid and well-structured JSON. If you don't add instructions to your prompt, it will assume a structure automatically.
 ## Examples
 ### Input
 It's 23.4 C Degrees in Innsbruck.
