@@ -23,9 +23,10 @@ class FunctionCallRequest(BaseModel):
     text: str
 
 class FunctionCallResponse(BaseModel):
-    response: str
-    valid_json_found: bool
-    json_data: dict | None
+    type: str = None
+    name: str = None
+    parameters: dict = None
+    status: str = None
     timestamp: str
 
 # Define your LLM API endpoint and auth details
@@ -109,15 +110,12 @@ async def function_call(request: Request):
         logging.error(f"Invalid response structure from LLM: {e}")
         raise HTTPException(status_code=500, detail="Invalid response structure from LLM")
 
-    # Check if the LLM message contains a valid JSON in a markdown code block
+    # Check if the LLM message contains valid JSON in a markdown code block
     json_found, json_data = extract_and_validate_json(llm_message)
 
-    response_data = {
-        "response": llm_message,
-        "valid_json_found": json_found,
-        "json_data": json_data,
-        "timestamp": datetime.now().isoformat()
-    }
+    # Update to include JSON data keys as root keys and add timestamp
+    response_data = json_data if json_data else {}
+    response_data['timestamp'] = datetime.now().isoformat()  # Add timestamp to response
 
     logging.debug(f"Function call response data: {response_data}")
     return response_data
