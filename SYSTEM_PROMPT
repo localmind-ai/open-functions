@@ -71,7 +71,7 @@ For better understanding, refer to the following examples:
   "parameters": {
     "response": "I'm doing great, thanks. How about you?"
   },
-  "status": "success"
+  "status": "response_fallback"
 }
 \```
 Adapt your responses to mirror these structures, with modifications based on the specific requests of the user.
