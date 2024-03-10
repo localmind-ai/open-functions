@@ -69,7 +69,8 @@ def function_call():
     response_data = {
         "response": llm_message,
         "valid_json_found": json_found,
-        "json_data": json_data
+        "json_data": json_data,
+        "timestamp": datetime.now().isoformat()  # Add the current timestamp
     }
 
     return jsonify(response_data)
