@@ -4,25 +4,31 @@ import requests
 import json
 import re
 import os
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = FastAPI()
 
 # Define your LLM API endpoint and auth details
-LLM_ENDPOINT = os.environ.get("LLM_ENDPOINT", "https://api.localmind.ai/v1/chat/completions")  # Fallback to Localmind AI endpoint if not set
+LLM_ENDPOINT = os.environ.get("LLM_ENDPOINT", "https://api.localmind.ai/v1/chat/completions")
 LLM_API_KEY = os.environ.get("LLM_API_KEY", "add-your-key-here")
 
 # Define your Multimodal LLM endpoint and auth details
-MULTIMODAL_ENDPOINT = os.environ.get("MULTIMODAL_ENDPOINT", "https://mllm-api.localmind.ai/v1/chat/completions") 
+MULTIMODAL_ENDPOINT = os.environ.get("MULTIMODAL_ENDPOINT", "https://mllm-api.localmind.ai/v1/chat/completions")
 MULTIMODAL_API_KEY = os.environ.get("MULTIMODAL_API_KEY", "add-your-key-here")
 
 # Call the LLM model
 def call_llm_api(user_input):
+    logging.debug("Calling LLM API")
     # Read system prompt content from a file
     with open("SYSTEM_PROMPT", "r") as file:
         system_prompt = file.read().strip()
+        logging.debug(f"System prompt read from file: {system_prompt}")
 
     payload = {
-        "model": "localmind-pro",  # Replace with actual model version if needed
+        "model": "localmind-pro",
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_input}
@@ -34,39 +40,51 @@ def call_llm_api(user_input):
     }
     try:
         response = requests.post(LLM_ENDPOINT, json=payload, headers=headers)
+        logging.debug(f"LLM API response: {response.json()}")
         return response.json()
     except requests.RequestException as e:
-        print(f"Request to LLM failed: {e}")
+        logging.error(f"Request to LLM failed: {e}")
         return None
-        
+
 # Function to find and validate JSON in markdown code block
 def extract_and_validate_json(text):
+    logging.debug("Extracting and validating JSON from text")
     # Regex to find markdown code blocks
     matches = re.findall(r"```(.*?)```", text, re.DOTALL)
     for match in matches:
         try:
             # Attempt to parse the code block as JSON
             parsed_json = json.loads(match)
-            return True, parsed_json  # Return True and the parsed JSON, if successful
+            logging.debug(f"Valid JSON found: {parsed_json}")
+            return True, parsed_json
         except json.JSONDecodeError:
-            continue  # If it's not valid JSON, continue to check other matches
-    return False, None  # Return False if no valid JSON code block was found
+            logging.warning("Invalid JSON encountered")
+            continue
+    return False, None
 
 @app.post('/function_call')
 async def function_call(request: Request):
     request_data = await request.json()
     user_input = request_data.get('text')
+    logging.info(f"Received user input: {user_input}")
 
     if not user_input:
+        logging.error("No text provided in request")
         raise HTTPException(status_code=400, detail="No text provided")
 
     # Call the LLM API
     llm_response = call_llm_api(user_input)
 
+    if llm_response is None:
+        logging.error("LLM response is None")
+        raise HTTPException(status_code=500, detail="LLM service unavailable")
+
     # Attempt to extract the message from the LLM response
     try:
         llm_message = llm_response['choices'][0]['message']['content']
-    except (KeyError, IndexError, TypeError):
+        logging.info(f"LLM message extracted: {llm_message}")
+    except (KeyError, IndexError, TypeError) as e:
+        logging.error(f"Invalid response structure from LLM: {e}")
         raise HTTPException(status_code=500, detail="Invalid response structure from LLM")
 
     # Check if the LLM message contains a valid JSON in a markdown code block
@@ -76,7 +94,8 @@ async def function_call(request: Request):
         "response": llm_message,
         "valid_json_found": json_found,
         "json_data": json_data,
-        "timestamp": datetime.now().isoformat()  # Add the current timestamp
+        "timestamp": datetime.now().isoformat()
     }
 
+    logging.debug(f"Function call response data: {response_data}")
     return response_data
