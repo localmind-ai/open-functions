@@ -23,20 +23,15 @@ curl -X POST http://127.0.0.1:8000/function_call \
 ### Response
 ```
 {
-    "response": "```json\n{\n  \"type\": \"function\",\n  \"name\": \"get_weather\",\n  \"parameters\": {\n    \"city\": \"Innsbruck\",\n    \"temperature\": \"20\",\n    \"condition\": \"sunny\",\n    \"description\": \"beautiful\"\n  },\n  \"status\": \"success\"\n}\n```",
-    "valid_json_found": true,
-    "json_data": {
-        "type": "function",
-        "name": "get_weather",
-        "parameters": {
-            "city": "Innsbruck",
-            "temperature": "20",
-            "condition": "sunny",
-            "description": "beautiful"
-        },
-        "status": "success"
+    "type": "function",
+    "name": "get_weather",
+    "parameters": {
+        "city": "Innsbruck",
+        "temperature": "20",
+        "conditions": "sunny"
     },
-    "timestamp": "2024-03-10T02:32:00.804711"
+    "status": "success",
+    "timestamp": "2024-03-10T02:53:13.685618"
 }
 ```
 ## How it works
