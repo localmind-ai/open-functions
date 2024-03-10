@@ -13,8 +13,8 @@ load_dotenv()
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = FastAPI(
-    title="LLM and Multimodal LLM API Wrapper",
-    description="This is a FastAPI application that serves as a wrapper for both LLM and Multimodal LLM APIs.",
+    title="Open Functions",
+    description="Use open LLMs like Llama and Mistral and extend them with function calling capabilities.",
     version="1.0.0"
 )
 
