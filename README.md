@@ -1,10 +1,12 @@
 # 🚧 Work in Progress
 🚧 This repository is considered work-in-progress and useless, until this notification is removed. :)
 
-# Open Functions
-**Extend LLMs like Mistral and Llama with advanced function calling capabilities.**
+## What is it?
+**Open Functions extends off-the-shelf Language Large Models (LLMs) like Mistral and Llama with function-calling capabilities.** It helps transitioning your LLM into a dynamic, interactive AI powerhouse by enabling seamless and reliable structured JSON outputs.
 
-Open Functions transforms a regular LLM that was not pre-trained for function calling and extends it with function calling capabilities. these models to call and execute functions, Open Functions transforms LLMs into powerful, interactive tools capable of completing complex tasks and generating structured outputs. Whether you're aiming to streamline data analysis, automate content creation, or develop innovative AI-driven solutions, Open Functions provide the key to unlocking the full potential of open-source LLMs, ensuring reliable performance.
+## 🌟 Features
+- Call Functions: Empower your LLMs to execute and call functions effortlessly.
+- Give your LLM interactive abilities: Transform passive models into active assistants, enabling data analysis, code execution and content generation for open models.
 
 ## Install
 1. Clone this repository: `git clone https://github.com/localmind-ai/open-functions`
