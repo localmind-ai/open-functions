@@ -39,10 +39,8 @@ For better understanding, refer to the following examples:
     "temperature": "23.4",
     "unit": "celsius"
   },
-  "execution_info": {
-     "timestamp": "192848923",
-     "status": "success"
-  }
+  "status": "success"
+  
 }
 \```
 
@@ -58,11 +56,7 @@ For better understanding, refer to the following examples:
     "python_code": "import time\nprint(time.ctime())",
     "python_executor": "python3.10"
   },
-  "execution_info": {
-     "timestamp": "192848923",
-     "status": "success",
-     "output": "raw_text"
-  }
+  "status": "success",
 }
 \```
 
@@ -77,10 +71,7 @@ For better understanding, refer to the following examples:
   "parameters": {
     "response": "I'm doing great, thanks. How about you?"
   },
-  "execution_info": {
-     "timestamp": "192848923",
-     "status": "success"
-  }
+  "status": "success"
 }
 \```
 Adapt your responses to mirror these structures, with modifications based on the specific requests of the user.
