@@ -12,7 +12,7 @@
 1. Clone this repository: `git clone https://github.com/localmind-ai/open-functions`
 2. Install Dependencies: `pip install -r requirements.txt`
 3. Run the API: `uvicorn open-functions:app --reload`
-4. Call it over cURL or somehow else:
+4. Call your API:
 ```
 curl -X POST http://127.0.0.1:8000/function_call \
 -H "Content-Type: application/json" \
