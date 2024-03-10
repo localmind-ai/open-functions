@@ -7,7 +7,9 @@
 Open Functions transforms a regular LLM that was not pre-trained for function calling and extends it with function calling capabilities. these models to call and execute functions, Open Functions transforms LLMs into powerful, interactive tools capable of completing complex tasks and generating structured outputs. Whether you're aiming to streamline data analysis, automate content creation, or develop innovative AI-driven solutions, Open Functions provide the key to unlocking the full potential of open-source LLMs, ensuring reliable performance.
 
 ## Install
-After cloning this repository, run `python3 open-functions.py`.
+1. Clone this repository: `git clone https://github.com/localmind-ai/open-functions`
+2. Install Dependencies: `pip install -r requirements.txt`
+1. Run the app: `python3 open-functions.py`
 
 ## How it works
 You define the structure of your function in an instruction prompt. Open Functions will try to follow your instructions and make sure that the output is always valid JSON with your defined structure. 
