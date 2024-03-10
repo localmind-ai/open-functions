@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify
+from fastapi import FastAPI, HTTPException, Request
 from datetime import datetime
 import requests
 import json
 import re
 import os
 
-app = Flask(__name__)
+app = FastAPI()
 
 # Define your LLM API endpoint and auth details
 LLM_ENDPOINT = os.environ.get("LLM_ENDPOINT", "https://api.localmind.ai/v1/chat/completions")  # Fallback to Localmind AI endpoint if not set
@@ -32,8 +32,8 @@ def call_llm_api(user_input):
         "Content-Type": "application/json",
         "Authorization": f"Bearer {LLM_API_KEY}"
     }
-    response = requests.post(LLM_ENDPOIND, json=payload, headers=headers)
-    return response.json()  # Returns the API response as a Python dictionary
+    response = requests.post(LLM_ENDPOINT, json=payload, headers=headers)
+    return response.json()
 
 # Function to find and validate JSON in markdown code block
 def extract_and_validate_json(text):
@@ -43,18 +43,18 @@ def extract_and_validate_json(text):
         try:
             # Attempt to parse the code block as JSON
             parsed_json = json.loads(match)
-            return True, parsed_json  # Return True and the parsed JSON if successful
+            return True, parsed_json  # Return True and the parsed JSON, if successful
         except json.JSONDecodeError:
             continue  # If it's not valid JSON, continue to check other matches
     return False, None  # Return False if no valid JSON code block was found
 
-@app.route('/function_call', methods=['POST'])
-def function_call():
-    request_data = request.json
+@app.post('/function_call')
+async def function_call(request: Request):
+    request_data = await request.json()
     user_input = request_data.get('text')
 
     if not user_input:
-        return jsonify({"error": "No text provided"}), 400
+        raise HTTPException(status_code=400, detail="No text provided")
 
     # Call the LLM API
     llm_response = call_llm_api(user_input)
@@ -63,7 +63,7 @@ def function_call():
     try:
         llm_message = llm_response['choices'][0]['message']['content']
     except (KeyError, IndexError, TypeError):
-        return jsonify({"error": "Invalid response structure from LLM"}), 500
+        raise HTTPException(status_code=500, detail="Invalid response structure from LLM")
 
     # Check if the LLM message contains a valid JSON in a markdown code block
     json_found, json_data = extract_and_validate_json(llm_message)
@@ -75,7 +75,7 @@ def function_call():
         "timestamp": datetime.now().isoformat()  # Add the current timestamp
     }
 
-    return jsonify(response_data)
+    return response_data
 
 if __name__ == '__main__':
     app.run(debug=True)
