@@ -14,7 +14,7 @@ LLM_API_KEY = os.environ.get("LLM_API_KEY", "add-your-key-here")
 # Define your Multimodal LLM endpoint and auth details
 MULTIMODAL_ENDPOINT = os.environ.get("MULTIMODAL_ENDPOINT", "https://mllm-api.localmind.ai/v1/chat/completions") 
 MULTIMODAL_API_KEY = os.environ.get("MULTIMODAL_API_KEY", "add-your-key-here")
-MLLM_API_KEY = "your-api-key"
+
 # Call the LLM model
 def call_llm_api(user_input):
     # Read system prompt content from a file
@@ -22,7 +22,7 @@ def call_llm_api(user_input):
         system_prompt = file.read().strip()
 
     payload = {
-        "model": "localmind-pro",  # Replace with your actual model version
+        "model": "localmind-pro",  # Replace with actual model version if needed
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_input}
