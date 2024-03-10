@@ -6,7 +6,7 @@
 
 ## 🌟 Features
 - **Function Calling for all LLMs**: Empower your LLMs to execute and call functions.
-- **Build interactive LLM experiences**: Transform passive models into active assistants, enabling data analysis, code execution and content generation for open models.
+- **Build interactive LLM experiences**: Transform passive models into active assistants, enabling task execution capabilities to open models.
 
 ## Install
 1. Clone this repository: `git clone https://github.com/localmind-ai/open-functions`
