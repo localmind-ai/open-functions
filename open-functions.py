@@ -32,9 +32,13 @@ def call_llm_api(user_input):
         "Content-Type": "application/json",
         "Authorization": f"Bearer {LLM_API_KEY}"
     }
-    response = requests.post(LLM_ENDPOINT, json=payload, headers=headers)
-    return response.json()
-
+    try:
+        response = requests.post(LLM_ENDPOINT, json=payload, headers=headers)
+        return response.json()
+    except requests.RequestException as e:
+        print(f"Request to LLM failed: {e}")
+        return None
+        
 # Function to find and validate JSON in markdown code block
 def extract_and_validate_json(text):
     # Regex to find markdown code blocks
@@ -76,6 +80,3 @@ async def function_call(request: Request):
     }
 
     return response_data
-
-if __name__ == '__main__':
-    app.run(debug=True)
