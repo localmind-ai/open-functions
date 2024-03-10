@@ -2,7 +2,7 @@
 🚧 This repository is considered work-in-progress and useless, until this notification is removed. :)
 
 ## What is it?
-**Open Functions extends off-the-shelf Language Large Models (LLMs) like Mistral and Llama with function-calling capabilities.** It helps transitioning your LLM into a dynamic, interactive AI powerhouse by enabling seamless and reliable structured JSON outputs.
+**Open Functions extends off-the-shelf Language Large Models (LLMs) like Mistral and Llama with function-calling capabilities.** It helps transitioning your LLM into a dynamic, interactive AI assistant by enabling seamless and reliable structured JSON outputs. Use these outputs to call functions, scripts and programs.
 
 ## 🌟 Features
 - **Function Calling for all LLMs**: Empower your LLMs to execute and call functions.
