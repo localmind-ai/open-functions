@@ -22,11 +22,17 @@ It's 23.4 C Degrees in Innsbruck.
 get_weather()
 ```
 {
-  "city": "Innsbruck",
-  "temperature": "23.4",
-  "unit": "celsius",
-  "function_call": "get_weather",
-  "timestamp": "192848923"
+  "type": "function",
+  "name": "get_weather",
+  "parameters": {
+    "city": "Innsbruck",
+    "temperature": "23.4",
+    "unit": "celsius"
+  },
+  "execution_info": {
+     "timestamp": "192848923",
+     "status": "success"
+  }
 }
 ```
 ### Input
@@ -35,11 +41,17 @@ Create a Python script that shows the current time.
 write_and_execute_python()
 ```
 {
-  "python_code": "import time\n print(time)",
-  "python_executor": "python3.10",
-  "python_output": "raw_text",
-  "function_call": "write_and_execute_python",
-  "timestamp": "192848923"
+  "type": "function",
+  "name": "write_and_execute_python",
+  "parameters": {
+    "python_code": "import time\nprint(time)",
+    "python_executor": "python3.10"
+  },
+  "execution_info": {
+     "timestamp": "192848923",
+     "status": "success",
+     "output": "raw_text"
+  }
 }
 ```
 ### Input
@@ -48,8 +60,14 @@ How are you doing?
 No Function provided, regular LLM response will be outputted.
 ```
 {
-  "response": "I'm doing great, thanks. How about you?",
-  "function_call": "none",
-  "timestamp": "192848923"
+  "type": "response",
+  "name": "assistant",
+  "parameters": {
+    "response": "I'm doing great, thanks. How about you?"
+  },
+  "execution_info": {
+     "timestamp": "192848923",
+     "status": "success"
+  }
 }
 ```
