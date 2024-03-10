@@ -5,11 +5,26 @@ import json
 import re
 import os
 import logging
+from pydantic import BaseModel
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-app = FastAPI()
+app = FastAPI(
+    title="LLM and Multimodal LLM API Wrapper",
+    description="This is a FastAPI application that serves as a wrapper for both LLM and Multimodal LLM APIs.",
+    version="1.0.0"
+)
+
+# Request and Response models
+class FunctionCallRequest(BaseModel):
+    text: str
+
+class FunctionCallResponse(BaseModel):
+    response: str
+    valid_json_found: bool
+    json_data: dict | None
+    timestamp: str
 
 # Define your LLM API endpoint and auth details
 LLM_ENDPOINT = os.environ.get("LLM_ENDPOINT", "https://api.localmind.ai/v1/chat/completions")
@@ -62,8 +77,13 @@ def extract_and_validate_json(text):
             continue
     return False, None
 
-@app.post('/function_call')
+@app.post('/function_call', summary="Call LLM Function", response_model=FunctionCallResponse)
 async def function_call(request: Request):
+    """
+    Calls the LLM API with the user input and returns the response.
+
+    - **text**: User input text to process
+    """
     request_data = await request.json()
     user_input = request_data.get('text')
     logging.info(f"Received user input: {user_input}")
