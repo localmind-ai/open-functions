@@ -3,15 +3,17 @@ from datetime import datetime
 import requests
 import json
 import re
+import os
 
 app = Flask(__name__)
 
 # Define your LLM API endpoint and auth details
-LLM_BASE_URL = "https://example-api.localmind.ai/v1/chat/completions"  # Update this with the actual API endpoint of your LLM. It should be OpenAI-compatible with the /chat/completions or /v1/chat/completions endpoint.
-LLM_API_KEY = "your_llm_api_key_here"  # Replace with your actual API key.
+LLM_ENDPOINT = os.environ.get("LLM_ENDPOINT", "https://api.localmind.ai/v1/chat/completions")  # Fallback to Localmind AI endpoint if not set
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "add-your-key-here")
 
 # Define your Multimodal LLM endpoint and auth details
-MLLM_BASE_URL = "add your multimodal LLM endpoint URL here"
+MULTIMODAL_ENDPOINT = os.environ.get("MULTIMODAL_ENDPOINT", "https://mllm-api.localmind.ai/v1/chat/completions") 
+MULTIMODAL_API_KEY = os.environ.get("MULTIMODAL_API_KEY", "add-your-key-here")
 MLLM_API_KEY = "your-api-key"
 # Call the LLM model
 def call_llm_api(user_input):
@@ -22,7 +24,7 @@ def call_llm_api(user_input):
     payload = {
         "model": "localmind-pro",  # Replace with your actual model version
         "messages": [
-            {"role": "system", "content": system_prompt},  # Use the content from the SYSTEM_PROMPT file
+            {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_input}
         ]
     }
@@ -30,7 +32,7 @@ def call_llm_api(user_input):
         "Content-Type": "application/json",
         "Authorization": f"Bearer {LLM_API_KEY}"
     }
-    response = requests.post(LLM_BASE_URL, json=payload, headers=headers)
+    response = requests.post(LLM_ENDPOIND, json=payload, headers=headers)
     return response.json()  # Returns the API response as a Python dictionary
 
 # Function to find and validate JSON in markdown code block
