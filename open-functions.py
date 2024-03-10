@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Request
+from dotenv import load_dotenv
 from datetime import datetime
 import requests
 import json
@@ -7,6 +8,7 @@ import os
 import logging
 from pydantic import BaseModel
 
+load_dotenv()
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
